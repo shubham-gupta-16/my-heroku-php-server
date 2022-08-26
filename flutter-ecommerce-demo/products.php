@@ -128,6 +128,10 @@ $page1 = [
     ]
 ];
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Authorization, Origin');
+header('Access-Control-Allow-Methods:  POST, PUT, GET');
+
 header('Content-Type: application/json; charset=utf-8');
 
 echo json_encode($page1);
