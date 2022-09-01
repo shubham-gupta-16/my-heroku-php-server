@@ -1,0 +1,13 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(230, 243, 255);
+    display: flex;
+    justify-content: center;
+    height: 90vh;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 30px;
+    font-weight: 600;
+    color: #666666;
+    align-items: center;
+}
