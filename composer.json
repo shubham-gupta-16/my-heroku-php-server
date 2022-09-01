@@ -1,0 +1,13 @@
+{
+    "name": "shubham/my-heroku-php-server",
+    "description": "My heroku php server",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shubham Gupta",
+            "email": "shubham.developer16@gmail.com"
+        }
+    ],
+    "require": {}
+}
