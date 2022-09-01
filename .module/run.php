@@ -21,11 +21,12 @@ if ($r = matchRoute($ROUTES)) {
     echo json_encode($data);
     //  && is_file('../api/pages/' . $ROUTES[$uri])
 } else {
-    
+    err();
 }
 
 function err()
 {
+    header("HTTP/1.1 404 Not Found");
     echo json_encode([
         'error' => 'File not found'
     ]);
