@@ -16,7 +16,7 @@ $uri = $_SERVER['REQUEST_URI'];
 if ($r = matchRoute($ROUTES)) {
     if (!is_file('../api/pages/' . $r[0]->file)) return err();
     // echo json_encode($r);
-    $arr = include '../api/pages/' . $r[0]->file;
+    include '../api/pages/' . $r[0]->file;
     $data = call_user_func($r[0]->func, ...$r[1]);
     echo json_encode($data);
     //  && is_file('../api/pages/' . $ROUTES[$uri])
