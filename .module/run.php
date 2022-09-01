@@ -2,6 +2,7 @@
 
 require_once './router.php';
 require_once '../routes.php';
+require_once './response.php';
 
 
 header('Access-Control-Allow-Origin: *');
@@ -9,27 +10,47 @@ header('Access-Control-Allow-Headers: *');
 header('Access-Control-Allow-Methods: POST, GET');
 header('Access-Control-Allow-Credentials: true');
 
-header('Content-Type: application/json; charset=utf-8');
 
 $uri = $_SERVER['REQUEST_URI'];
 
+// print_r($_SERVER);
+
 if ($r = matchRoute($ROUTES)) {
-    if (!is_file('../api/pages/' . $r[0]->file)) return err();
-    // echo json_encode($r);
-    include '../api/pages/' . $r[0]->file;
-    $data = call_user_func($r[0]->func, ...$r[1]);
-    echo json_encode($data);
-    //  && is_file('../api/pages/' . $ROUTES[$uri])
+    if (!is_file('../controllers/' . $r[0]->file)) return err();
+    include '../controllers/' . $r[0]->file;
+    if ($r[0]->func == null) return;
+    $response = call_user_func($r[0]->func, ...$r[1]);
+    if (gettype($response) == 'object' && get_class($response) == 'Response'){
+        if ($response->view != null){
+            $DATA = $response->data;
+            include '../views/' . $response->view;
+        } else {
+            json($response->data);
+        }
+    } else {
+        json($response);
+    }
+    // echo json_encode($data);
+    //  && is_file('../controllers/' . $ROUTES[$uri])
 } else {
+    // Route Not Found
     err();
+}
+
+function json($data){
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($data);
+    die;
 }
 
 function err()
 {
+    header('Content-Type: application/json; charset=utf-8');
     header("HTTP/1.1 404 Not Found");
     echo json_encode([
         'error' => 'File not found'
     ]);
+    die;
 }
 
 function matchRoute($routes = [], $url = null, $method = 'GET')
@@ -37,7 +58,7 @@ function matchRoute($routes = [], $url = null, $method = 'GET')
     // I used PATH_INFO instead of REQUEST_URI, because the 
     // application may not be in the root direcory
     // and we dont want stuff like ?var=value
-    $reqUrl = $url ?? $_SERVER['REQUEST_URI'];
+    $reqUrl = $url ?? $_SERVER['REDIRECT_URL'];
     $reqMet = $method ?? $_SERVER['REQUEST_METHOD'];
 
     $reqUrl = rtrim($reqUrl, "/");

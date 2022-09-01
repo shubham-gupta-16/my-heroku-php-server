@@ -131,10 +131,15 @@ $page1 = [
 function index()
 {
     global $page1;
-    return $page1;
+    return Response::JSON($page1);
 }
 
 function test($log, $data)
 {
-    return [$log, $data];   
+    return Response::JSON([$log, $data]);   
+}
+
+function view()
+{
+    return Response::VIEW('view-example.php', ['wow'=>'It works']);
 }

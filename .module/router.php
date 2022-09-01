@@ -6,7 +6,7 @@ class Router
     public $uri;
     public $method;
     public $file;
-    public $func = 'index';
+    public $func;
 
 
     private function __construct(string $method, string $uri, string $file, ?string $func = null)
@@ -16,8 +16,6 @@ class Router
         $this->file = $file;
         if ($func != null) {
             $this->func = $func;
-        } else {
-            $this->func = 'index';
         }
     }
 

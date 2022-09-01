@@ -1,10 +1,8 @@
-
-ErrorDocument 404 /error.php
-<IfModule mod_rewrite.c>
-
-   RewriteEngine on
-   RewriteCond %{REQUEST_FILENAME} -f [OR]
-   RewriteCond %{REQUEST_FILENAME} !-f
-   RewriteRule ^(.*)$ .module/run.php [L,QSA]
-
-</IfModule>
+RewriteEngine on
+Options -Indexes
+ErrorDocument 404 /pages/error.php
+ErrorDocument 403 /pages/error.php
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !^/?(public)/
+RewriteRule ^(.*)$ .module/run.php [L,QSA]
