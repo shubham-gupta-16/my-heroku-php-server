@@ -5,6 +5,6 @@ ErrorDocument 404 /error.php
    RewriteEngine on
    RewriteCond %{REQUEST_FILENAME} -f [OR]
    RewriteCond %{REQUEST_FILENAME} !-f
-   RewriteRule ^(.*)$ .module/run.php [L,QSA]
+   RewriteRule ^(.*)$ bin/run.php [L,QSA]
 
 </IfModule>
