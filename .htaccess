@@ -4,3 +4,12 @@ RewriteCond %{REQUEST_FILENAME}\.php -f
 
 
 RewriteRule ^(.*)$ $1.php
+
+<IfModule mod_rewrite.c>
+
+
+   RewriteCond %{REQUEST_FILENAME} -f [OR]
+   RewriteCond %{REQUEST_FILENAME} !-f
+   RewriteRule ^(.*)$ bin/run.php [L,QSA]
+
+</IfModule>

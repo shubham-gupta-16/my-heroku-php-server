@@ -128,11 +128,6 @@ $page1 = [
     ]
 ];
 
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Headers: *');
-header('Access-Control-Allow-Methods: POST, GET');
-header('Access-Control-Allow-Credentials: true');
 
-header('Content-Type: application/json; charset=utf-8');
 
-echo json_encode($page1);
+return $page1;
