@@ -128,6 +128,13 @@ $page1 = [
     ]
 ];
 
+function index()
+{
+    global $page1;
+    return $page1;
+}
 
-
-return $page1;
+function test($log, $data)
+{
+    return [$log, $data];   
+}
