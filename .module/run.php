@@ -74,6 +74,8 @@ function matchRoute($routes = [], $url = null, $method = 'GET')
     $reqUrl = rtrim($reqUrl, "/");
 
     foreach ($routes as $uri => $route) {
+        if(strpos($uri, '{') === false)
+            continue;
         // convert urls like '/users/:uid/posts/:pid' to regular expression
         // $pattern = "@^" . preg_replace('/\\\:[a-zA-Z0-9\_\-]+/', '([a-zA-Z0-9\-\_]+)', preg_quote($route['url'])) . "$@D";
         $pattern = "@^" . preg_replace('/{[a-zA-Z0-9\_\-.]+}/', '([a-zA-Z0-9\_\-.]+)', $uri) . "$@D";
