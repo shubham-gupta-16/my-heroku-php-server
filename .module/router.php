@@ -2,37 +2,35 @@
 
 class Router
 {
-    public $uri;
     public $method;
     public $file;
     public $func;
 
-    private function __construct(string $method, string $uri, string $file, string $func)
+    private function __construct(string $method, string $file, string $func)
     {
         $this->method = $method;
-        $this->uri = $uri;
         $this->file = $file;
         $this->func = $func;
     }
 
-    static public function GET(string $uri, string $file, string $func): Router
+    static public function GET(string $file, string $func): Router
     {
-        return new Router('GET', $uri, $file, $func);
+        return new Router('GET', $file, $func);
     }
-    static public function POST(string $uri, string $file, string $func): Router
+    static public function POST(string $file, string $func): Router
     {
-        return new Router('POST', $uri, $file, $func);
+        return new Router('POST', $file, $func);
     }
-    static public function PUT(string $uri, string $file, string $func): Router
+    static public function PUT(string $file, string $func): Router
     {
-        return new Router('PUT', $uri, $file, $func);
+        return new Router('PUT', $file, $func);
     }
-    static public function PATCH(string $uri, string $file, string $func): Router
+    static public function PATCH(string $file, string $func): Router
     {
-        return new Router('PATCH', $uri, $file, $func);
+        return new Router('PATCH', $file, $func);
     }
-    static public function DELETE(string $uri, string $file, string $func): Router
+    static public function DELETE(string $file, string $func): Router
     {
-        return new Router('DELETE', $uri, $file, $func);
+        return new Router('DELETE', $file, $func);
     }
 }

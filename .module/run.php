@@ -14,14 +14,29 @@ header('Access-Control-Allow-Credentials: true');
 $uri = $_SERVER['REQUEST_URI'];
 
 // print_r($_SERVER);
+if (isset($ROUTES[$uri])){
+    $route = $ROUTES[$uri];
+    // echo $uri;
+    // echo $route->file;
+    runpage($route);
+}
+else if ($r = matchRoute($ROUTES)) {
+    runpage($r[0], $r[1]);
+    // echo json_encode($data);
+    //  && is_file('../controllers/' . $ROUTES[$uri])
+} else {
+    // Route Not Found
+    err();
+}
 
-if ($r = matchRoute($ROUTES)) {
-    if (!is_file('../controllers/' . $r[0]->file)) return err();
-    include '../controllers/' . $r[0]->file;
-    if ($r[0]->func == null) return;
-    $response = call_user_func($r[0]->func, ...$r[1]);
-    if (gettype($response) == 'object' && get_class($response) == 'Response'){
-        if ($response->view != null){
+function runpage(Router $route, array $data = []){
+    if (!is_file('../controllers/' . $route->file . '.php')) return err();
+    include '../controllers/' . $route->file . '.php';
+    if ($route->func == null) return;
+    $response = call_user_func($route->func, ...$data);
+    if (gettype($response) == 'object' && get_class($response) == 'Response') {
+        
+        if ($response->view != null) {
             $DATA = $response->data;
             include '../views/' . $response->view;
         } else {
@@ -30,11 +45,6 @@ if ($r = matchRoute($ROUTES)) {
     } else {
         json($response);
     }
-    // echo json_encode($data);
-    //  && is_file('../controllers/' . $ROUTES[$uri])
-} else {
-    // Route Not Found
-    err();
 }
 
 function json($data){
@@ -63,10 +73,10 @@ function matchRoute($routes = [], $url = null, $method = 'GET')
 
     $reqUrl = rtrim($reqUrl, "/");
 
-    foreach ($routes as $route) {
+    foreach ($routes as $uri => $route) {
         // convert urls like '/users/:uid/posts/:pid' to regular expression
         // $pattern = "@^" . preg_replace('/\\\:[a-zA-Z0-9\_\-]+/', '([a-zA-Z0-9\-\_]+)', preg_quote($route['url'])) . "$@D";
-        $pattern = "@^" . preg_replace('/{[a-zA-Z0-9\_\-.]+}/', '([a-zA-Z0-9\_\-.]+)', $route->uri) . "$@D";
+        $pattern = "@^" . preg_replace('/{[a-zA-Z0-9\_\-.]+}/', '([a-zA-Z0-9\_\-.]+)', $uri) . "$@D";
         // echo $pattern."\n";
         $params = [];
         // check if the current request params the expression

@@ -1,7 +1,7 @@
 <?php
 
 $ROUTES = [
-    Router::GET('/flutter-ecommerce-demo/products', 'flutter-ecommerce-demo-products.php', 'index'),
-    Router::GET('/test/{log}/{data}', 'flutter-ecommerce-demo-products.php', 'test'),
-    Router::GET('/view/example', 'flutter-ecommerce-demo-products.php', 'view'),
+    '/flutter-ecommerce-demo/products' => Router::GET('flutter-ecommerce-demo-products', 'index'),
+    '/test/{log}/{data}' => Router::GET('flutter-ecommerce-demo-products', 'test'),
+    '/view/example' => Router::GET('flutter-ecommerce-demo-products', 'view'),
 ];
