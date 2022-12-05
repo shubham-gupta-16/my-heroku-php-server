@@ -16,7 +16,7 @@ class Response {
         return new Response($data, $code, null);
     }
 
-    static public function VIEW(string $view,  $data = null, int $code = 200)
+    static public function VIEW(string $view, array $data = null, int $code = 200)
     {
         return new Response($data, $code, $view);
     }
