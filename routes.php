@@ -1,7 +1,7 @@
 <?php
 
 $ROUTES = [
-    '/flutter-ecommerce-demo/products' => Router::GET('flutter-ecommerce-demo-products', 'index'),
-    '/test/{log}/{data}' => Router::GET('flutter-ecommerce-demo-products', 'test'),
-    '/view/example' => Router::GET('flutter-ecommerce-demo-products', 'view'),
+    '/my_libraries/my-heroku-php-server/' => Router::GET('example_api_controller', 'index'),
+    '/test/{log}/{data}' => Router::GET('exmaple_api_controller', 'test'),
+    '/view/example' => Router::GET('exmaple_controller', 'view'),
 ];

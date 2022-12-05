@@ -5,4 +5,4 @@ ErrorDocument 403 /pages/error.php
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_URI} !^/?(public)/
-RewriteRule ^(.*)$ .module/run.php [L,QSA]
+RewriteRule ^(.*)$ .module/index.php [L,QSA]

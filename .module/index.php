@@ -24,24 +24,27 @@ else if ($r = matchRoute($ROUTES)) {
 }
 
 function runpage(Router $route, array $data = []){
-    if (!is_file('../controllers/' . $route->file . '.php')) return err();
-    include '../controllers/' . $route->file . '.php';
+    
+    if (!is_file("..\\controllers\\" . $route->file . '.php')) return err();
+    include '..\\controllers\\' . $route->file . '.php';
     if ($route->func == null) return;
     $response = call_user_func($route->func, ...$data);
     if (gettype($response) == 'object' && get_class($response) == 'Response') {
         
         if ($response->view != null) {
             $DATA = $response->data;
-            include '../views/' . $response->view;
+            // show the view 
+            include '..\\views\\' . $response->view . '.php';
         } else {
-            json($response->data);
+            // retrun the data as json output
+            _json($response->data);
         }
     } else {
-        json($response);
+        _json($response);
     }
 }
 
-function json($data){
+function _json($data){
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($data);
     die;
