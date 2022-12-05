@@ -4,5 +4,6 @@ ErrorDocument 404 /pages/error.php
 ErrorDocument 403 /pages/error.php
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_URI} !^/?(public)/
-RewriteRule ^(.*)$ .module/index.php [L,QSA]
+RewriteCond %{REQUEST_URI} !^/?(assets)/
+RewriteCond %{REQUEST_URI} !^/?(storage)/
+RewriteRule ^(.*)$ index.php [L,QSA]
