@@ -36,17 +36,17 @@ function runpage($route, array $data = [])
     switch (get_class($route)) {
         case 'Internal\Types\TypeView':
             if (!is_file("..\\views\\" . $route->file . '.php')) return err();
-            $DATA = $route->data;
+            $DATA = (object) $route->data;
             include '..\\views\\' . $route->file . '.php';
             break;
         case 'Internal\Types\TypeController':
             if (!is_file("..\\controllers\\" . $route->file . '.php')) return err();
             include '..\\controllers\\' . $route->file . '.php';
-            $response = call_user_func($route->fun ?: 'index', ...$data);
-            if (gettype($response) == 'object' && get_class($response) == 'TypeView') {
-                $DATA = $response->data;
-                include '..\\views\\' . $response->view . '.php';
-            } elseif (gettype($response) == 'object' && get_class($response) == 'TypeJson') {
+            $response = call_user_func($route->fun, ...$data);
+            if (gettype($response) == 'object' && get_class($response) == 'Internal\Types\TypeView') {
+                $DATA = (object) $response->data;
+                include '..\\views\\' . $response->file . '.php';
+            } elseif (gettype($response) == 'object' && get_class($response) == 'Internal\Types\TypeJson') {
                 _json($response->data);
             } else {
                 _json($response);
