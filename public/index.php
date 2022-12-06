@@ -1,8 +1,8 @@
 <?php
 
 require_once './router.php';
-require_once '../routes.php';
 require_once './response.php';
+$ROUTES = include '../settings/routes.php';
 
 require_once '../vendor/autoload.php';
 
@@ -15,38 +15,44 @@ header('Access-Control-Allow-Credentials: true');
 $uri = $_SERVER['REQUEST_URI'];
 // todo fixme
 // $uri = str_replace('/public', '', $uri);
-if (isset($ROUTES[$uri])){
+if (isset($ROUTES[$uri])) {
     $route = $ROUTES[$uri];
     runpage($route);
-}
-else if ($r = matchRoute($ROUTES)) {
+} else if ($r = matchRoute($ROUTES)) {
     runpage($r[0], $r[1]);
 } else {
     err();
 }
 
-function runpage(Router $route, array $data = []){
+function runpage($route, array $data = [])
+{
     // echo "..\\controllers\\" . $route->file . '.php';
-    if (!is_file("..\\controllers\\" . $route->file . '.php')) return err();
-    include '..\\controllers\\' . $route->file . '.php';
-    if ($route->func == null) return;
-    $response = call_user_func($route->func, ...$data);
-    if (gettype($response) == 'object' && get_class($response) == 'Response') {
-        
-        if ($response->view != null) {
-            $DATA = $response->data;
-            // show the view 
-            include '..\\resources\\views\\' . $response->view . '.php';
-        } else {
-            // retrun the data as json output
-            _json($response->data);
-        }
-    } else {
-        _json($response);
+    switch (get_class($route)) {
+        case 'TypeView':
+            if (!is_file("..\\views\\" . $route->file . '.php')) return err();
+            $DATA = $route->data;
+            include '..\\views\\' . $route->file . '.php';
+            break;
+        case 'TypeController':
+            if (!is_file("..\\controllers\\" . $route->file . '.php')) return err();
+            include '..\\controllers\\' . $route->file . '.php';
+            $response = call_user_func($route->fun ?: 'index', ...$data);
+            if (gettype($response) == 'object' && get_class($response) == 'TypeView') {
+                $DATA = $response->data;
+                include '..\\views\\' . $response->view . '.php';
+            } elseif (gettype($response) == 'object' && get_class($response) == 'TypeJson') {
+                _json($response->data);
+            } else {
+                _json($response);
+            }
+            break;
+        default:
+            return err();
     }
 }
 
-function _json($data){
+function _json($data)
+{
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($data);
     die;
@@ -70,7 +76,7 @@ function matchRoute($routes = [], $url = null, $method = 'GET')
     $reqUrl = rtrim($reqUrl, "/");
 
     foreach ($routes as $uri => $route) {
-        if(strpos($uri, '{') === false)
+        if (strpos($uri, '{') === false)
             continue;
         $pattern = "@^" . preg_replace('/{[a-zA-Z0-9\_\-.]+}/', '([a-zA-Z0-9\_\-.]+)', $uri) . "$@D";
         $params = [];
