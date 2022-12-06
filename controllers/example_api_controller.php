@@ -1,7 +1,10 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+
 function index()
 {
+    $phpmailer = new PHPMailer();
     return "Hello Laralite API";    
 }
 
