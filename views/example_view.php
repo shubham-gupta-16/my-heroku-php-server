@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    This is a example view with message: <?= $DATA['message'] ?>
+    This is a example view with message: <?= $DATA->message ?>
 </body>
 
 </html>
