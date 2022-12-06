@@ -1,10 +1,15 @@
 <?php
 
-require_once './router.php';
-require_once './response.php';
-$ROUTES = include '../settings/routes.php';
+// use Internal\Response;
+
 
 require_once '../vendor/autoload.php';
+
+// new TypeJson('', []);
+
+
+$ROUTES = include '../settings/routes.php';
+
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *');
@@ -27,13 +32,14 @@ if (isset($ROUTES[$uri])) {
 function runpage($route, array $data = [])
 {
     // echo "..\\controllers\\" . $route->file . '.php';
+    // echo get_class($route);
     switch (get_class($route)) {
-        case 'TypeView':
+        case 'Internal\Types\TypeView':
             if (!is_file("..\\views\\" . $route->file . '.php')) return err();
             $DATA = $route->data;
             include '..\\views\\' . $route->file . '.php';
             break;
-        case 'TypeController':
+        case 'Internal\Types\TypeController':
             if (!is_file("..\\controllers\\" . $route->file . '.php')) return err();
             include '..\\controllers\\' . $route->file . '.php';
             $response = call_user_func($route->fun ?: 'index', ...$data);

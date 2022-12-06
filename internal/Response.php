@@ -1,23 +1,19 @@
 <?php
 
+namespace Internal;
+
+use Internal\Types\TypeJson;
+use Internal\Types\TypeView;
+
 class Response {
-    public $data;
-    public $code;
-    public $view;
 
-    private function __construct( $data, int $code, ?string $view) {
-        $this->data = $data;
-        $this->code = $code;
-        $this->view = $view;
+    static public function json(array|object $data): TypeJson
+    {
+        return new TypeJson('', $data);
     }
 
-    static public function JSON($data, int $code = 200)
+    static public function VIEW(string $file_name): TypeView
     {
-        return new Response($data, $code, null);
-    }
-
-    static public function VIEW(string $view, array $data = null, int $code = 200)
-    {
-        return new Response($data, $code, $view);
+        return new TypeView('', $file_name);
     }
 }

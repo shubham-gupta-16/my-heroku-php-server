@@ -8,14 +8,15 @@ class TypeController
     public $file;
     public $fun;
 
-    private function __construct(string $method, string $file_name)
+    public function __construct(string $method, string $file_name)
     {
         $this->method = $method;
         $this->file = $file_name;
     }
 
-    public function fun(string $function_name)
+    public function fun(string $function_name): TypeController
     {
         $this->fun = $function_name;
+        return $this;
     }
 }

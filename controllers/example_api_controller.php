@@ -1,5 +1,6 @@
 <?php
 
+use Internal\Response;
 use PHPMailer\PHPMailer\PHPMailer;
 
 function index()
@@ -10,5 +11,5 @@ function index()
 
 function test($log, $data)
 {
-    return Response::JSON([$log, $data]);
+    return Response::json([$log, $data]);
 }

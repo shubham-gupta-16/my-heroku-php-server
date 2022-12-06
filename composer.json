@@ -1,18 +1,20 @@
 {
-    "name": "shubham-gupta-16/my-heroku-php-server",
-    "description": "My heroku php server",
-    "type": "project",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Shubham Gupta"
-        }
-    ],
-    "require": {
-        "phpmailer/phpmailer": "^6.5"
-    },
-    "autoload": {
-        "App\\": "app/",
-        "Internal\\": "internal/"
+  "name": "shubham-gupta-16/my-heroku-php-server",
+  "description": "My heroku php server",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Shubham Gupta"
     }
+  ],
+  "require": {
+    "phpmailer/phpmailer": "^6.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Internal\\": "internal/"
+    }
+  }
 }
