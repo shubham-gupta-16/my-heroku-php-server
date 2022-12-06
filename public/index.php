@@ -6,7 +6,6 @@ require_once './response.php';
 
 require_once '../vendor/autoload.php';
 
-
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *');
 header('Access-Control-Allow-Methods: POST, GET');
@@ -37,7 +36,7 @@ function runpage(Router $route, array $data = []){
         if ($response->view != null) {
             $DATA = $response->data;
             // show the view 
-            include '..\\views\\' . $response->view . '.php';
+            include '..\\resources\\views\\' . $response->view . '.php';
         } else {
             // retrun the data as json output
             _json($response->data);
