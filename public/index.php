@@ -13,7 +13,7 @@ header('Access-Control-Allow-Credentials: true');
 
 $uri = $_SERVER['REQUEST_URI'];
 // todo fixme
-$uri = str_replace('/public', '', $uri);
+// $uri = str_replace('/public', '', $uri);
 if (isset($ROUTES[$uri])){
     $route = $ROUTES[$uri];
     runpage($route);
@@ -25,7 +25,7 @@ else if ($r = matchRoute($ROUTES)) {
 }
 
 function runpage(Router $route, array $data = []){
-    echo "..\\controllers\\" . $route->file . '.php';
+    // echo "..\\controllers\\" . $route->file . '.php';
     if (!is_file("..\\controllers\\" . $route->file . '.php')) return err();
     include '..\\controllers\\' . $route->file . '.php';
     if ($route->func == null) return;
