@@ -1,7 +1,6 @@
 <?php
 
-use Internal\RouteMap\RouteMap;
-use Internal\TypeView\TypeView;
+use Internal\RouteMap;
 
 return [
     '/' => RouteMap::get()->controller('example_api_controller')->fun('index'),

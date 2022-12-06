@@ -1,6 +1,6 @@
 <?php
 
-namespace Internal\RouteMap;
+namespace Internal;
 
 use Internal\Types\TypeController;
 use Internal\Types\TypeView;
