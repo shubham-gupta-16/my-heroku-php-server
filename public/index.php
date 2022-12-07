@@ -7,7 +7,6 @@ require_once '../vendor/autoload.php';
 
 // new TypeJson('', []);
 
-
 $ROUTES = include '../settings/routes.php';
 
 
@@ -26,7 +25,7 @@ if (isset($ROUTES[$uri])) {
 } else if ($r = matchRoute($ROUTES)) {
     runpage($r[0], $r[1]);
 } else {
-    err();
+    err(404);
 }
 
 function runpage($route, array $data = [])
@@ -35,42 +34,54 @@ function runpage($route, array $data = [])
     // echo get_class($route);
     switch (get_class($route)) {
         case 'Internal\Types\TypeView':
-            if (!is_file("..\\views\\" . $route->file . '.php')) return err();
+            if (!is_file("..\\views\\" . $route->file . '.php')) return err(500);
             $DATA = (object) $route->data;
             include '..\\views\\' . $route->file . '.php';
+            _output($response->status, $response->headers, null);
             break;
         case 'Internal\Types\TypeController':
-            if (!is_file("..\\controllers\\" . $route->file . '.php')) return err();
+            if (!is_file("..\\controllers\\" . $route->file . '.php')) return err(500);
             include '..\\controllers\\' . $route->file . '.php';
             $response = call_user_func($route->fun, ...$data);
             if (gettype($response) == 'object' && get_class($response) == 'Internal\Types\TypeView') {
                 $DATA = (object) $response->data;
                 include '..\\views\\' . $response->file . '.php';
+                _output($response->status, $response->headers, null);
             } elseif (gettype($response) == 'object' && get_class($response) == 'Internal\Types\TypeJson') {
-                _json($response->data);
+                _output($response->status, $response->headers, $response->data);
+                // header
+                // status
             } else {
-                _json($response);
+                _output(200, null, $response);
             }
             break;
         default:
-            return err();
+            return err(500);
     }
 }
 
-function _json($data)
+function _output(int $status_code, ?array $headers, $data)
 {
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode($data);
+    http_response_code($status_code);
+    if ($data != null) {
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($data);
+    }
+    if ($headers != null){
+        foreach ($headers as $header) {
+            header($header);
+        }
+    }
     die;
 }
 
-function err()
+function err(int $status_code)
 {
-    header('Content-Type: application/json; charset=utf-8');
-    header("HTTP/1.1 404 Not Found");
-    echo json_encode([
-        'error' => 'File not found'
-    ]);
+    http_response_code($status_code);
+    // header('Content-Type: application/json; charset=utf-8');
+    // echo json_encode([
+    //     'error' => 'File not found'
+    // ]);
     die;
 }
 
