@@ -3,6 +3,7 @@
 namespace Internal;
 
 use Internal\Types\TypeController;
+use Internal\Types\TypeJson;
 use Internal\Types\TypeView;
 
 class RouteMap {
@@ -22,6 +23,11 @@ class RouteMap {
     public function view(string $file_name) : TypeView
     {
         return new TypeView($this->method, $file_name);
+    }
+
+    public function json(array|object|string|int|float $data) : TypeJson
+    {
+        return new TypeJson($this->method, $data);
     }
 
     static public function get(): RouteMap
