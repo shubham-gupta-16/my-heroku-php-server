@@ -6,10 +6,11 @@ use PHPMailer\PHPMailer\PHPMailer;
 function index()
 {
     $phpmailer = new PHPMailer();
-    return "Hello Laralite API";
+    return Response::json("Hello Laralite API")->status(201)
+        ->headers(['Custom-Header: Hello World']);
 }
 
 function test($log, $data)
 {
-    return Response::json([$log, $data]);
+    return [$log, $data];
 }
