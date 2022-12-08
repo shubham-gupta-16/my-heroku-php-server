@@ -14,5 +14,8 @@
       "Internal\\": "internal/",
       "Internal\\Types\\": "internal/types/"
     }
+  },
+  "require": {
+    "shubham-gupta-16/laralite-core": "dev-master"
   }
 }
